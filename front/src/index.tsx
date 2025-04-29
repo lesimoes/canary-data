@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import Companies from "./pages/Companies";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import Companies from './pages/Companies';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,12 +16,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/companies" element={<Companies/>}/>
-        </Routes>
-      </Layout>
+      <QueryClientProvider client={queryClient}>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/companies" element={<Companies />} />
+          </Routes>
+        </Layout>
+      </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

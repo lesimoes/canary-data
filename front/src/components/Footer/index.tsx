@@ -1,9 +1,11 @@
+import { FooterContainer } from './styles';
+
 function Footer() {
   return (
-    <footer>
-      <p>Footer</p>
-    </footer>
+    <FooterContainer>
+      <p>Data Canary - {new Date().getFullYear()}</p>
+    </FooterContainer>
   );
 }
 
-export default Footer
+export default Footer;

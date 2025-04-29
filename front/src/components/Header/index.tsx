@@ -1,20 +1,12 @@
-import Link from "../Link";
-import styled from "styled-components";
+import { HeaderContainer, Logo, Nav, NavLink } from './styles';
 
-
-const StyledHeader = styled.header`
-  display: flex;
-`
-
-
-function Header() {
+export default function Header() {
   return (
-    <StyledHeader>
-      <p>Header</p>
-      <Link to="/">Home</Link>
-      <Link to="/companies">Companies</Link>
-    </StyledHeader>
+    <HeaderContainer>
+      <Logo>Canary Data</Logo>
+      <Nav>
+        <NavLink href="#">Home</NavLink>
+      </Nav>
+    </HeaderContainer>
   );
 }
-
-export default Header

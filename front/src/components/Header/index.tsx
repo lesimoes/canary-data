@@ -5,7 +5,8 @@ export default function Header() {
     <HeaderContainer>
       <Logo>Canary Data</Logo>
       <Nav>
-        <NavLink href="#">Home</NavLink>
+        <NavLink href="/">Home</NavLink>
+        <NavLink href="/about">About</NavLink>
       </Nav>
     </HeaderContainer>
   );

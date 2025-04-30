@@ -5,8 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
-import Companies from './pages/Companies';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GlobalStyles } from './globalStyles';
+import About from './pages/About';
 
 const queryClient = new QueryClient();
 
@@ -17,10 +18,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
+        <GlobalStyles />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/companies" element={<Companies />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </Layout>
       </QueryClientProvider>

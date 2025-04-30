@@ -26,17 +26,13 @@ function Content({
 
 function Home() {
   const { company, setCompany } = useCompanySelect();
-  const { data, isLoading } = useCompareDocuments({ companyCik: company });
+  const { data, isFetching } = useCompareDocuments({ companyCik: company });
 
-  console.log({
-    data,
-    isLoading,
-  });
   return (
     <div>
       <div>
         <CompanySelect onChange={setCompany} value={company} />
-        <Content data={data} isLoading={isLoading} />
+        <Content data={data} isLoading={isFetching} />
       </div>
     </div>
   );

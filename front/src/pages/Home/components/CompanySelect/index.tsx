@@ -24,6 +24,9 @@ export const CompanySelect = ({ value, onChange }: CompanySelectProps) => {
         value={value || ''}
         onChange={(e) => onChange(e.target.value)}
       >
+        <option disabled value={''}>
+          Select a company
+        </option>
         {companies.map((company) => (
           <option key={company.cik} value={company.cik}>
             {company.name} - {company.cik}

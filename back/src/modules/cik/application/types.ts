@@ -1,7 +1,6 @@
 export type SecDocumentRequest = { cik: string, accessionNumber: string, fileName: string }
 export type EftsLatestDocumentRequest = { cik: string }
 
-
 export type EftsDocument = {
   _id: string;
   accessionNumber: string;
@@ -10,6 +9,7 @@ export type EftsDocument = {
   adsh: string;
   fileDate: string;
 };
+
 export type DocumentType = "10-Q" | "10-K";
 export enum EDocumentType {
   "10Q" = "10-Q",

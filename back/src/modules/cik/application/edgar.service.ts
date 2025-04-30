@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { IEdgarService } from './edgar.interface';
 import { EftsLatestDocumentRequest, EftsDocumentResponse, SecDocumentRequest, EftsDocument } from './types';
+import { Result } from '../../../libs/result';
 
 export class EdgarService implements IEdgarService {
 
@@ -8,8 +9,9 @@ export class EdgarService implements IEdgarService {
     baseURL: 'https://www.sec.gov',
     headers: {
       'User-Agent': 'bolinha@gmail.com',
-      'Accept': '*/*',
+      'Accept': 'text/html'
     },
+    responseType: 'text',
     timeout: 10_000
   });
 
@@ -24,7 +26,7 @@ export class EdgarService implements IEdgarService {
 
   constructor() { }
 
-  async getDocuments({ cik }: EftsLatestDocumentRequest): Promise<EftsDocument[]> {
+  async getDocuments({ cik }: EftsLatestDocumentRequest): Promise<Result<EftsDocument[]>> {
 
     const url = `/LATEST/search-index?dateRange=custom&category=custom&ciks=${cik}&startdt=2020-04-24&enddt=2025-04-24&forms=10-K,10-Q`
 
@@ -32,7 +34,7 @@ export class EdgarService implements IEdgarService {
 
       const response = await this.efsAxios.get(url) as { data: EftsDocumentResponse };
 
-      return response.data.hits.hits.map((hit) => ({
+      const documents = response.data.hits.hits.map((hit) => ({
         _id: hit._id,
         accessionNumber: hit._id.split(':')[0],
         fileName: hit._id.split(':')[1],
@@ -41,13 +43,15 @@ export class EdgarService implements IEdgarService {
         fileDate: hit._source.file_date,
       }))
 
+      return Result.ok(documents, null)
+
     } catch (error: any) {
-      console.error('Erro ao buscar documento da SEC:', error.response?.status, error.message, error);
-      throw error;
+      console.error('Error fetch document:', error.response?.status, error.message, error);
+      return Result.fail('Get document failed!');
     }
   }
 
-  async fetchSecDocument({ cik, accessionNumber, fileName }: SecDocumentRequest): Promise<string> {
+  async fetchSecDocument({ cik, accessionNumber, fileName }: SecDocumentRequest): Promise<Result<any>> {
     const cleanedCik = cik.replace(/^0+/, '');
 
     const cleanedAccession = accessionNumber.replace(/-/g, '');
@@ -55,10 +59,10 @@ export class EdgarService implements IEdgarService {
 
     try {
       const response = await this.secAxios.get(url);
-      return response.data;
+      return Result.ok(response.data, null)
     } catch (error: any) {
-      console.error('Erro ao buscar documento da SEC:', error.response?.status, error.message);
-      throw error;
+      console.error('Error SEC:', error.response?.status, error.message);
+      return Result.fail('Fetch document failed!')
     }
   }
 }

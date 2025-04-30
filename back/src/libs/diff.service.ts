@@ -37,9 +37,6 @@ export class DiffService {
 
       $A(elA).html(patched);
     });
-
-    await fs.writeFile('diff.html', $A.html(), 'utf8');
-
     return $A.html();
   }
 }
